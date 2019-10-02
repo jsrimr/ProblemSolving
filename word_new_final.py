@@ -1,16 +1,15 @@
-path = []
+result = []
 # memo = {}
-def find_path(graph, begin, target, history, ):
-    # 종료조건
-    if begin == target:
-        path.append(history)
+def dfs(graph, start, end , path = [], ):
+    if start == end:
+        result.append(path)
+    if not set(graph[start]).difference(set(path)):
         return
-    # 새로운 거 없을 때
-    stack = graph[begin]
-    while stack:
-        node = stack.pop()
-        if node not in history: #이미 방문한 곳 안가도록 + 전에거로 안돌아가도록 조치
-            find_path(graph, node, target, history + [node], )
+    for n in graph[start]:
+        if n not in path:
+            dfs(graph, n, end ,path + [n] ,)
+
+    return result
 
 def solution(begin, target, words):
     graph = {}
@@ -28,9 +27,10 @@ def solution(begin, target, words):
     #for word with intersection with begin:
     candidates = [word for word in words if set(word).intersection(set(begin))]
     for begin in candidates:
-        find_path(graph, begin, target, [begin])
-    if path:
-        return min(list(map(len, path)))
+        dfs(graph, begin, target, [begin])
+    if result:
+        # print("result:", result)
+        return min(list(map(len, result)))
     else:
         return 0
 

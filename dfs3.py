@@ -1,12 +1,12 @@
 result = []
-def dfs(graph, start, end , path = [], visit=[]):
+def dfs(graph, start, end , path = [], ):
     if start == end:
         result.append(path)
-    if not set(graph[start]).difference(set(visit)):
+    if not set(graph[start]).difference(set(path)):
         return
     for n in graph[start]:
-        if n not in visit:
-            dfs(graph, n, end ,path + [n] , visit+[n])
+        if n not in path:
+            dfs(graph, n, end ,path + [n] ,)
 
     return result
 
