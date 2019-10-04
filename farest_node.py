@@ -20,10 +20,10 @@ def solution(n, edge):
 
     lengths = []
     for end in set(list(range(1,n+1))):
-        if end == n:
+        if end == 1:
             continue
         else:
-            path = bfs(graph, n, end)
+            path = bfs(graph, 1, end)
             lengths.append(len(path))
 
     min_ = min(lengths)
