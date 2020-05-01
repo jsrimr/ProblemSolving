@@ -4,7 +4,6 @@ def solution(n, build_frame):
         
         if y == n: #바닥이면
             return True
-
         if (y+1) <= n and map_[y+1][x][0]:# 밑에 기둥 있으면
             return True 
         if map_[y][x][1]: #보가 있으면
