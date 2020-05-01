@@ -29,9 +29,10 @@ def solution(stones, k):
                 break
 
         else:  # 문제없이 통과했다. 더 많은 사람을 견디는지 시험해보자
+            answer = min_
             min_ = mid + 1
 
-    return min_
+    return answer
 
 #
 # import copy
