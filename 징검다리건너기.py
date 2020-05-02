@@ -29,7 +29,7 @@ def solution(stones, k):
                 break
 
         else:  # 문제없이 통과했다. 더 많은 사람을 견디는지 시험해보자
-            min_ = mid + 1
+            min_ = mid + 1 # +1 까진 무조건 성공하는 구간
 
     return min_
 
