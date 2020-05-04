@@ -4,13 +4,6 @@ def solution(n, weak, dist):
     dist.sort(reverse=True)
 
     # dist 큰 친구부터 투입. d 로 남은 remain 최대한 커버칠 수 있는 만큼 커버치고, 남은 remain return => 부분해가 최적해가 아닌듯하다. 폐기.
-
-    def clock(time1, time2):
-        if time1 < 0:
-            return time2
-        else:
-            return time1
-
     def backtrack(remain, st, cnt):
         # return 조건 : remain 이 없을 때
         nonlocal answer
@@ -40,10 +33,11 @@ def solution(n, weak, dist):
             if not right:
                 backtrack(right, None, cnt)
             for st in right:
-                backtrack(right, st, cnt)
+                backtrack(right, st, cnt)  # backtrack 안에 이렇게 backtrack 이 많으면 2^8 이 아니라 len(dist)^8 이 되어버린다.
 
     for i, st in enumerate(weak):
         backtrack(weak, st, 0)  # 탐색할 공간,
+
 
     if answer == 15:
         return -1
