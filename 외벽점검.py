@@ -1,37 +1,56 @@
-# Greedy & bruteforce ( 숫자가 작음 ) & recursion
+# bruteforce & recursion
 def solution(n, weak, dist):
-    answer = 0
+    answer = 15
     dist.sort(reverse=True)
 
-    # dist 큰 친구부터 투입. d 로 남은 remain 최대한 커버칠 수 있는 만큼 커버치고, 남은 remain return
+    # dist 큰 친구부터 투입. d 로 남은 remain 최대한 커버칠 수 있는 만큼 커버치고, 남은 remain return => 부분해가 최적해가 아닌듯하다. 폐기.
 
-    def backtrack(d, remain):
-        best = 0
-        for r in remain:  # r이 시작점
-            left = sum(1 for x in remain if max(r - d, r - d + n) <= x <= r)
-            right = sum(1 for x in remain if (r <= x <= r + d))
+    def clock(time1, time2):
+        if time1 < 0:
+            return time2
+        else:
+            return time1
 
-            bin = max(left, right)
-            if bin == left:
-            if max(left, right) > best:
-                best = max(left, right)
-                best_cover =
+    def backtrack(remain, st, cnt):
+        # return 조건 : remain 이 없을 때
+        nonlocal answer
+        if not remain:
+            if cnt < answer:
+                answer = cnt
+                return
 
-        return best_cover
+        elif cnt == len(dist):
+            return
 
-    for d in dist:
+        else:
+            d = dist[cnt]
+            cnt += 1
 
-    # 왼쪽
+            left_forbidden = [st - x if st - x >= 0 else st - x + n for x in range(d+1)]
+            right_forbidden = [st + x if st + x < n else st + x - n for x in range(d+1)]
 
-    # 오른쪽
+            left = [x for x in remain if x not in left_forbidden]
+            right = [x for x in remain if x not in right_forbidden]
 
-    # 모든 외벽 점검할 떄까지 ㄱㄱ
+            if not left:
+                backtrack(left, None, cnt)
+            for st in left:
+                backtrack(left, st, cnt)
 
-    else:
+            if not right:
+                backtrack(right, None, cnt)
+            for st in right:
+                backtrack(right, st, cnt)
+
+    for i, st in enumerate(weak):
+        backtrack(weak, st, 0)  # 탐색할 공간,
+
+    if answer == 15:
         return -1
-
-    return answer
+    else:
+        return answer
 
 
 if __name__ == "__main__":
-    print(solution())
+    print(solution(12, [1, 5, 6, 10], [1, 2, 3, 4]))
+    print(solution(12, [1, 3, 4, 9, 10], [3, 5, 7]))
