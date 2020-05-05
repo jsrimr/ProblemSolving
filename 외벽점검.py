@@ -1,8 +1,14 @@
 # bruteforce & recursion
+import copy
+
+
 def solution(n, weak, dist):
     answer = 15
     dist.sort(reverse=True)
 
+    tmp = copy.copy(weak)
+    for w in weak:
+        tmp.append(w + n)
     # dist 큰 친구부터 투입. d 로 남은 remain 최대한 커버칠 수 있는 만큼 커버치고, 남은 remain return => 부분해가 최적해가 아닌듯하다. 폐기.
     def backtrack(remain, st, cnt):
         # return 조건 : remain 이 없을 때
@@ -24,6 +30,8 @@ def solution(n, weak, dist):
 
             left = [x for x in remain if x not in left_forbidden]
             right = [x for x in remain if x not in right_forbidden]
+
+            st ~ st + d
 
             if not left:
                 backtrack(left, None, cnt)
