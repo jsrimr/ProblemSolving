@@ -1,39 +1,18 @@
-# 프로그래머스 문제 풀이 연습
+# Visual Studio Codespaces
 
-##이진탐색은 기본적으로 low는 성공하는 부분, high는 실패하는 부분
-- 징검다리 건너(https://programmers.co.kr/learn/courses/30/lessons/64062)
+Welcome to Visual Studio Codespaces! This environment provides you with a full-fidelity development experience, that is accessible from anywhere. It's the same Visual Studio Code experience you already know and love, only powered by the cloud 💙 ☁️
 
-## 선형공간의 탐색비용은 해시와 이분탐색을 이용하면 줄어들 수 있다. 
+Clone a repo, edit some code, [spin up a terminal](https://docs.microsoft.com/en-us/visualstudio/online/how-to/vscode#using-the-integrated-terminal) and then [start debugging](https://docs.microsoft.com/en-us/visualstudio/online/how-to/vscode#port-forwarding). When you're done working, we'll automatically suspend the environment, so you only pay for the time you actually use it (down to the second!) 👍
 
+If you're working on multiple projects, then go ahead and create multiple environments. You can quickly switch between them, knowing that each one has its own dedicated resources. Additionally, feel free to spin up environments for ad-hoc tasks such as reviewing a PR or doing some pair programming with a colleague. With Visual Studio Codespaces, you can eradicate setup from all of your everyday tasks 🔥 🙌
 
-Greedy : 보트 문제
-https://programmers.co.kr/learn/courses/30/lessons/42885
+## Helpful Resources
 
-[Greedy답](Greedy/)
+* [What is Visual Studio Codespaces?](https://docs.microsoft.com/en-us/visualstudio/online/overview/what-is-vsonline)
+* [How-to Guide: VS Code](https://docs.microsoft.com/en-us/visualstudio/online/how-to/vscode#install)
+* [How-to Guide: Browser](https://docs.microsoft.com/en-us/visualstudio/online/how-to/browser#create-an-environment)
+* [Environment configuration](https://docs.microsoft.com/en-us/visualstudio/online/reference/configuring)
+* [Environment personalization](https://docs.microsoft.com/en-us/visualstudio/online/reference/personalizing)
 
-BFS : 가장 먼 노드
-https://programmers.co.kr/learn/courses/30/lessons/49189
+If you run into any problems, see our [troubleshooting documentation](https://docs.microsoft.com/en-us/visualstudio/online/resources/troubleshooting) for potential workarounds. Additionally, if you have any questions and/or feedback, please don't hesitate to reach out to the team on [GitHub](https://github.com/microsoftdocs/vsonline).
 
-[BFS답](BFS/)
-
-DP : 등굣길 (웅덩이 피해 경로 찾기)
-https://programmers.co.kr/learn/courses/30/lessons/42898?language=python3
-
-[dp답](DP/)
-
-DFS : 네트워크
-https://programmers.co.kr/learn/courses/30/lessons/43162
-
-[dfs답](dfs/)
-
-Heapq(우선순위 큐) : 디스크 컨트롤러  
-https://programmers.co.kr/learn/courses/30/lessons/42627
-
-[heapq답](heapq/tired_work.py)
-
-
-BinarySearch : 징검다리건너기
-https://programmers.co.kr/learn/courses/30/lessons/64062
-
-Hash + recursion : 호텔방배정
-https://programmers.co.kr/learn/courses/30/lessons/64063
