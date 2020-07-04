@@ -5,6 +5,7 @@ from typing import List
 class Solution:
     def change(self, amount: int, coins: List[int]) -> int:
 
+        cache = dict()
         answer_set = set()
 
         def process(arr):
@@ -18,15 +19,19 @@ class Solution:
 
         def backtrack(amt, comb):
 
+            if amt in cache:
+                return cache[amt]
+
             if amt == 0:
                 answer_set.add(process(comb))
                 return
 
             if amt < 0:
-                return
+                return -1
 
             for coin in coins:
-                backtrack(amt - coin, comb + [coin])
+                tmp = backtrack(amt - coin, comb + [coin])
+                cache[amt-coin] = tmp
 
         backtrack(amount, [])
 

@@ -1,53 +1,12 @@
 def solution(nums):
-    Store = []
-    plusStore = []
-    minusStore = []
-    answer = -float("Inf")
-
-    def arr_product(arr):
-        ret = 1
-        for el in arr:
-            ret *= el
-        return ret
-
-    for el in nums:
-        # 이전거랑 힘을 합한게 더 크냐, 지금 혼자가는게 더 크냐
-
-        if el > 0: 
-            product = arr_product(plusStore) * el
-
-            Store.append(el)
-            plusStore.append(el)
-            minusStore.append(el)
-
-        elif el < 0: 
-            if minusStore:
-                product = arr_product(minusStore) * el
-
-                Store.append(el)
-                minusStore.append(el)
-                plusStore = 
-
-            else:
-                product = el
-
-                Store.append(el)
-                plusStore = []
-                minusStore.append(el)
-
-
-        else:
-            product = 0
-
-            store = []
-            plusStore = []
-            minusStore = []
-
-        answer = max(answer, product)
-
-        # 0의 존재
-
-    return answer
+    max_list = [0] * len(nums)
+    min_list = [0] * len(nums)
+    max_list[0] = nums[0]
+    min_list[0] = nums[0]
+    for i in range(1,len(nums)):
+        max_list[i] = max(max_list[i-1]*nums[i],min_list[i-1]*nums[i],nums[i])
+        min_list[i] = min(min_list[i-1]*nums[i],nums[i],max_list[i-1]*nums[i])
+    return max(max_list)
 
 if __name__ == "__main__":
     print(solution([2,3,-2,4])) # 6

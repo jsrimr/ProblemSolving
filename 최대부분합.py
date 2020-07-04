@@ -1,37 +1,12 @@
-
 def maxSubArray(nums) :
-    memo = {}
-    sub_st = len(nums)
+    answer = 0
+    psum = 0
+    for i, el in enumerate(nums):
+        #연속합 계속 저장
+        psum = max(psum, 0) + el
+        answer =  max(answer, psum) # 시작점은 고정이 안되있는데 어떻게 딱 맞을 수 있을까? 끝점은 고정한다 치더라도.
 
-    def calc(idx): # hash 에 값 등록한다.
-        nonlocal sub_st
-
-        if len(nums[idx:]) == 1:
-            memo[idx] = nums[idx]
-            sub_st = idx
-            return
-
-        if idx +1 != sub_st: #sub_st 와 idx 가 연속 아니면
-            new = nums[idx]
-            sub_max = memo[idx+1]
-
-            if new > sub_max: #sub_st 변경
-                sub_st
-                memo[idx] = new
-                
-            else:
-
-        
-        else: # 연속이면 그대로 new를 더해준다, 포인터 이동
-
-
-
-        memo[idx] = max(value, memo[idx+1])
-
-    for i in reversed(range(len(nums))):
-        calc(i)
-
-    return memo
+    return answer
 
 if __name__ == '__main__':
     print(maxSubArray([-2,1,-3,4,-1,2,1,-5,4]))
