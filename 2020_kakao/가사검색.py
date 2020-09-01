@@ -31,24 +31,6 @@ class Trie(object):
         curr_node.data = string
 
     """
-    주어진 단어 string이 트라이에 존재하는지 여부를 반환합니다.
-    """
-
-    def search(self, string):
-        curr_node = self.head
-
-        for char in string:
-            if char in curr_node.children:
-                curr_node = curr_node.children[char]
-            else:
-                return False
-
-        # string의 마지막 글자에 다달았을 때,
-        # curr_node 에 data 가 있다면 string이 트라이에 존재하는 것!
-        if (curr_node.data != None):
-            return True
-
-    """
     주어진 prefix 로 시작하는 단어들을
     트라이에서 찾아 리스트 형태로 반환합니다.
     """
@@ -66,16 +48,16 @@ class Trie(object):
                 curr_node = curr_node.children[char]
                 subtrie = curr_node
             else:
-                return None
+                return 0
 
         # bfs 로 prefix subtrie를 순회하며
         # data가 있는 노드들(=완전한 단어)를 찾는다.
-        queue = list(zip(subtrie.children.values(), [0] * len(subtrie.children)))  # Node list
+        queue = list(zip(subtrie.children.values(), [1] * len(subtrie.children)))  # Node list
 
         count_question_m = prefix.count("?")
         result = 0
         while queue:
-            curr, depth = queue.pop()
+            curr, depth = queue.pop(0)
             if depth > count_question_m:
                 break
             if depth == count_question_m and curr.data != None:
