@@ -5,7 +5,7 @@ class Node(object):
 
     def __init__(self, key, data=None):
         self.key = key
-        self.data = data
+        self.data = 0
         self.children = {}
 
 
@@ -21,6 +21,7 @@ class Trie(object):
         curr_node = self.head
 
         for char in string:
+            curr_node.data += 1
             if char not in curr_node.children:
                 curr_node.children[char] = Node(char)
 
@@ -28,7 +29,7 @@ class Trie(object):
 
             # string 의 마지막 글자 차례이면,
             # 노드의 data 필드에 저장하려는 문자열 전체를 저장한다.
-        curr_node.data = string
+
 
     """
     주어진 prefix 로 시작하는 단어들을
@@ -37,52 +38,35 @@ class Trie(object):
 
     def starts_with(self, prefix):
         curr_node = self.head
-        subtrie = None
 
         # 트라이에서 prefix 를 찾고,
         # prefix의 마지막 글자 노드를 subtrie로 설정
         for char in prefix:
-            if char == "?":
-                break
+
             if char in curr_node.children:
                 curr_node = curr_node.children[char]
-                subtrie = curr_node
             else:
                 return 0
-
-        # bfs 로 prefix subtrie를 순회하며
-        # data가 있는 노드들(=완전한 단어)를 찾는다.
-        queue = list(zip(subtrie.children.values(), [1] * len(subtrie.children)))  # Node list
-
-        count_question_m = prefix.count("?")
-        result = 0
-        while queue:
-            curr, depth = queue.pop(0)
-            if depth > count_question_m:
-                break
-            if depth == count_question_m and curr.data != None:
-                # result.append(curr.data)
-                result += 1
-            queue += list(zip(curr.children.values(), [depth + 1] * len(curr.children)))
-
-        return result
-
+        return curr_node.data
 
 def solution(words, queries):
-    ordered_Trie = Trie()
-    reversed_Trie = Trie()
+
+    ordered_Tries = [Trie() for _ in range(10000)]
+    reversed_Tries = [Trie() for _ in range(10000)]
 
     for word in words:
-        ordered_Trie.insert(word)
-        reversed_Trie.insert(word[::-1])
+        l = len(word)
+        ordered_Tries[l-1].insert(word)
+        reversed_Tries[l-1].insert(word[::-1])
 
     answer = []
     for q in queries:
+        l = len(q)
         if q.startswith("?"):
-            value = reversed_Trie.starts_with(q[::-1])
+            value = reversed_Tries[l-1].starts_with(q.replace("?","")[::-1])
             answer.append(value)
         else:
-            value = ordered_Trie.starts_with(q)
+            value = ordered_Tries[l-1].starts_with(q.replace("?",""))
             answer.append(value)
 
     return answer
