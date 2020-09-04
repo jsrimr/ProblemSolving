@@ -9,18 +9,9 @@ class Node:
 
     def getXY(self):
         return self.r1, self.c1
-        # if self.state == "long":
-        #     # return min(self.r1, self.r2), self.c1
-        #     return self.r1, self.c1
-        # else:
-        #     return self.r1, self.c1  # min(self.c1, self.c2)
 
     def getXY2(self):
         return self.r2, self.c2
-        # if self.state == "long":
-        #     return self.r2,self.c2#max(self.r1, self.r2), self.c1
-        # else:
-        #     return self.r1, max(self.c1, self.c2)
 
 
 def solution(board):
@@ -63,7 +54,7 @@ def solution(board):
                 queue.append(Node(r2, c2, r2, c2 + 1, "cross", cnt + 1))
                 queue.append(Node(r1, c1, r1, c1 + 1, "cross", cnt + 1))
             # 왼쪽이 비었을때 -> 왼쪽으로 이동, 회전 *2
-            if c2 - 1 >= 0 and board[r1][c1 - 1] == 0 and board[r1][c2 - 1] == 0:
+            if c2 - 1 >= 0 and board[r1][c1 - 1] == 0 and board[r2][c2 - 1] == 0:
                 queue.append(Node(r1, c1 - 1, r2, c2 - 1, "long", cnt + 1))
                 queue.append(Node(r1, c2 - 1, r1, c2, "cross", cnt + 1))
                 queue.append(Node(r2, c2 - 1, r2, c2, "cross", cnt + 1))
@@ -81,4 +72,14 @@ if __name__ == '__main__':
     board = [[0, 0, 0, 1, 1], [0, 0, 0, 1, 0], [0, 1, 0, 1, 1], [1, 1, 0, 0, 1], [0, 0, 0, 0, 0]]
     board = [[0, 0, 0, 0, 0, 0, 1], [1, 1, 1, 1, 0, 0, 1], [0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 1, 1, 1, 0],
              [0, 1, 1, 1, 1, 1, 0], [0, 0, 0, 0, 0, 1, 1], [0, 0, 1, 0, 0, 0, 0]]
+    board = [[0, 0, 0, 0, 0, 0, 1], [1, 1, 1, 1, 0, 0, 1], [0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 1, 1, 0, 0], [0, 1, 1, 1, 1, 1, 0], [0, 0, 0, 0, 0, 1, 0], [0, 0, 1, 0, 0, 0, 0]]
+    board = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [1, 1, 1, 1, 1, 1, 1, 0, 0],
+             [1, 1, 1, 1, 1, 1, 1, 1, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 1, 1, 1, 1, 1, 0, 0],
+             [0, 1, 1, 1, 1, 1, 1, 1, 1],
+             [0, 0, 1, 1, 1, 1, 1, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [1, 1, 1, 1, 1, 1, 1, 1, 0]]
     print(solution(board))
