@@ -1,122 +1,78 @@
-def arrived(r, c, n):
-    return (r == n - 1) or (c == n - 1)
+from collections import deque
 
 
-def to_up(r, c, d, n):
-    if d == 1:
-        if r - 1 >= 0 and board[r - 1][c] == 0 and board[r - 1][c + 1] == 0:
-            return (r - 1, c, d)
-    elif d == 2:
-        if r - 2 >= 0 and board[r - 2][c] == 0:
-            return (r - 1, c, d)
-    elif d == 3:
-        if r - 1 >= 0 and c - 1 >= 0 and board[r - 1][c] == 0 and board[r - 1][c - 1] == 0:
-            return (r - 1, c, d)
-    else:
-        if r - 1 >= 0 and board[r - 1][c] == 0:
-            return (r - 1, c, d)
+class Node:
+    def __init__(self, r1, c1, r2, c2, state):  # cross and long
+        self.r1, self.r2, self.c1, self.c2 = r1, r2, c1, c2
+        self.state = state
 
+    def getXY(self):
+        if self.state == "long":
+            return min(self.r1, self.r2), self.c1
+        else:
+            return self.r1, min(self.c1, self.c2)
 
-def to_right(r, c, d, n):
-    if d == 1:
-        if c + 2 <= n - 1 and board[r][c + 2] == 0:
-            return (r, c + 1, d)
-    elif d == 2:
-        if c + 1 <= n - 1 and board[r][c + 1] == 0 and board[r - 1][c + 1] == 0:
-            return (r, c + 1, d)
-    elif d == 3:
-        if c + 1 <= n - 1 and board[r][c + 1] == 0:
-            return (r, c + 1, d)
-    else:
-        if c + 1 <= n - 1 and board[r][c + 1] == 0 and board[r + 1][c + 1] == 0:
-            return (r, c + 1, d)
-
-
-def to_down(r, c, d, n):
-    if d == 1:
-        if r + 1 <= n - 1 and board[r + 1][c] == 0 and board[r + 1][c + 1] == 0:
-            return (r + 1, c, d)
-    elif d == 2:
-        if r+1 <=n-1 and board[r+1][c] == 0:
-            return (r + 1, c, d)
-    elif d == 3:
-        if r + 1 <= n - 1 and board[r + 1][c] == 0 and board[r + 1][c - 1] == 0:
-            return (r + 1, c, d)
-    else:
-        if r + 1 <= n - 1 and board[r + 1][c] == 0:
-            return (r + 1, c, d)
-
-
-def to_left(r, c, d, n):
-    if d == 1:
-        if c-1 >=0 and board[r][c-1] == 0:
-            return (r, c - 1, d)
-    elif d == 2:
-        if c-1 >=0 and board[r][c-1] == 0 and board[r - 1][c-1] == 0:
-            return (r, c - 1, d)
-    elif d == 3:
-        if c-1 >=0 and board[r][c-1] == 0:
-            return (r, c - 1, d)
-    else:
-        if c-1 >=0 and board[r][c-1] == 0 and board[r + 1][c-1] == 0:
-            return (r, c - 1, d)
-
-
-def x_to_clock(r, c, d, n):
-    if d == 1:
-        if r+1 <= n-1 and board[r+1][c] == 0 and board[r+1][c+1] == 0:
-            return (r-1, c + 1, 2)
-    elif d == 2:
-        if c + 1 <= n-1 and board[r][c + 1] == 0 and board[r - 1][c + 1] == 0:
-            return (r-1, c + 1, 3)
-    elif d == 3:
-        if r-1 >=0 and board[r-1][c]==0 and board[r-1][c-1]==0:
-            return (r-1, c - 1, 4)
-    else:
-        if c - 1 >= 0 and board[r][c - 1] == 0 and board[r + 1][c - 1] == 0:
-            return (r+1, c - 1, 1)
-
-def x_to_counterClock(r, c, d, n):
-    if d == 1:
-        if r+1 <= n-1 and board[r+1][c] == 0 and board[r+1][c+1] == 0:
-            return (r-1, c + 1, 2)
-    elif d == 2:
-        if c + 1 <= n-1 and board[r][c + 1] == 0 and board[r - 1][c + 1] == 0:
-            return (r-1, c + 1, 3)
-    elif d == 3:
-        if r-1 >=0 and board[r-1][c]==0 and board[r-1][c-1]==0:
-            return (r-1, c - 1, 4)
-    else:
-        if c - 1 >= 0 and board[r][c - 1] == 0 and board[r + 1][c - 1] == 0:
-            return (r+1, c - 1, 1)
-
-def y_to_clock(r, c, d, n):
-    pass
-
-
-def y_to_counterClock(r, c, d, n):
-    pass
+    def getXY2(self):
+        if self.state == "long":
+            return max(self.r1, self.r2), self.c1
+        else:
+            return self.r1, max(self.c1, self.c2)
 
 
 def solution(board):
-    r, c, d = 0, 0, 1
+    cnt = 0
+    start_node = Node(0, 0, 0, 0, "cross")
+    queue = deque([start_node])
+    visited = set()
+
     n = len(board)
-    queue = []
-    answer = 0
     while queue:
-        (r, c, d) = queue.pop()
-        if arrived(r, c, n):
+        node = queue.popleft()
+        if node in visited:
+            continue
+        visited.add(node)
+
+        r1, c1 = node.getXY()
+        r2, c2 = node.getXY2()
+        print(r1,c1,r2,c2,node.state)
+        if (r1, c1) == (n - 1, n - 1) or (r2, c2) == (n - 1, n - 1):
             break
-        for ret in [to_up(r, c, d, n), to_right(r, c, d, n), to_down(r, c, d, n), to_left(r, c, d, n),
-                    x_to_clock(r, c, d, n), x_to_counterClock(r, c, d, n), y_to_clock(r, c, d, n),
-                    y_to_counterClock(r, c, d, n)]:  # 상하좌우, x를 축으로 회전방향2, y를 축으로 회전방향2
-            if ret: queue.append(ret)
-        answer += 1
+        # 8가지 *2
+        if node.state == "cross":  # 가로
+            if c2 + 1 <= n - 1 and board[r2][c2 + 1] == 0:  # right empty -> go to right,
+                queue.append(Node(r1, c1 + 1, r2, c2 + 1, "cross"))
+            if c1 - 1 >= 0 and board[r1][c1 - 1] == 0:  # left empty -> go to left
+                queue.append(Node(r1, c1 - 1, r2, c2 - 1, "cross"))
+            if r1 - 1 >= 0 and board[r1 - 1][c1] == 0 and board[r2 - 1][c2] == 0:  # up empty -> go up, rotate*2
+                queue.append(Node(r1 - 1, c1, r2 - 1, c2, "cross"))
+                queue.append(Node(r1 - 1, c1 + 1, r2, c2, "long"))
+                queue.append(Node(r1, c1, r2 - 1, c2 - 1, "long"))
+            if r1 + 1 <= n - 1 and board[r1 + 1][c1] == 0 and board[r2 + 1][c2] == 0:  # under empty -> go under, rotate*2
+                queue.append(Node(r1 + 1, c1, r2 + 1, c2, "cross"))
+                queue.append(Node(r1 + 1, c1 + 1, r2, c2, "long"))
+                queue.append(Node(r1, c1, r2 + 1, c2 - 1, "long"))
+        else:  # long
 
-    return answer
+            if c1 + 1 <= n - 1 and board[r1][c1 + 1] == 0 and board[r2][c2 + 1] == 0:  # 오른쪽이 비었을 때 -> 오른쪽으로 이동, 회전 *2
+                queue.append(Node(r1, c1 + 1, r2, c2 + 1, "long"))
+                queue.append(Node(r1 + 1, c1 + 1, r2, c2, "cross"))
+                queue.append(Node(r1, c1, r2-1, c1 + 1, "cross"))
+            # 왼쪽이 비었을때 -> 왼쪽으로 이동, 회전 *2
+            if c1 - 1 >= 0 and board[r1][c1 - 1] == 0 and board[r1][c2 - 1] == 0:
+                queue.append(Node(r1, c1 - 1, r2, c2 - 1, "long"))
+                queue.append(Node(r1 + 1, c1 - 1, r2, c2, "cross"))
+                queue.append(Node(r1, c1, r2 - 1, c2 - 1, "cross"))
+            # 위쪽이 비었을로 때 -> 위로이동
+            if r1 - 1 >= 0 and board[r1 - 1][c1] == 0:
+                queue.append(Node(r1 - 1, c1, r2 - 1, c2, "long"))
+            # 아래쪽이 비었을 때 -> 아래로 이
+            if r2 + 1 <= n - 1 and board[r2 + 1][c1] == 0:
+                queue.append(Node(r1 + 1, c1, r2 + 1, c2, "long"))
 
+        cnt += 1
 
-# bfs 문제
+    return cnt
+
 
 if __name__ == '__main__':
     board = [[0, 0, 0, 1, 1], [0, 0, 0, 1, 0], [0, 1, 0, 1, 1], [1, 1, 0, 0, 1], [0, 0, 0, 0, 0]]
