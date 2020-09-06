@@ -48,21 +48,28 @@ def solution(board):
                 return True
 
     for r in range(n):
-        for c in range(n):
+        c = 0
+        while c < n:
             if board[r][c] != 0:
 
                 if isA(r, c):
                     count += 1
+                    c = -1
                 elif isB(r, c):
                     count += 1
+                    c = -1
                 elif isC(r, c):
                     count += 1
+                    c = -1
                 elif isD(r, c):
                     count += 1
+                    c = -1
                 elif isE(r, c):
                     count += 1
+                    c = -1
                 else:
-                    continue
+                    pass
+            c += 1
 
     return count
 
