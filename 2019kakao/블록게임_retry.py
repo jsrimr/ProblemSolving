@@ -8,7 +8,7 @@ def solution(board):
                 return False
         return True
 
-    def isA(r,c):
+    def isA(r, c):
         if r + 1 <= n - 1 and c + 2 <= n - 1 and board[r][c] == board[r + 1][c] == board[r + 1][c + 1] == \
                 board[r + 1][c + 2]:
             if column_clean_until_row(r, c) and column_clean_until_row(r + 1, c + 1) and column_clean_until_row(r + 1,
@@ -17,14 +17,14 @@ def solution(board):
 
                 return True
 
-    def isB(r,c):
+    def isB(r, c):
         if r + 2 <= n - 1 and c - 1 >= 0 and board[r][c] == board[r + 1][c] == board[r + 2][c] == board[r + 2][
             c - 1]:
             if column_clean_until_row(r, c) and column_clean_until_row(r + 2, c - 1):
                 board[r][c] = board[r + 1][c] = board[r + 2][c] = board[r + 2][c - 1] = 0
                 return True
 
-    def isC(r,c):
+    def isC(r, c):
         if r + 1 <= n - 1 and c - 2 >= 0 and board[r][c] == board[r + 1][c - 2] == board[r + 1][c - 1] == \
                 board[r + 1][c]:
             if column_clean_until_row(r, c) and column_clean_until_row(r + 1, c - 1) and column_clean_until_row(r + 1,
@@ -32,14 +32,14 @@ def solution(board):
                 board[r][c] = board[r + 1][c - 2] = board[r + 1][c - 1] = board[r + 1][c] = 0
                 return True
 
-    def isD(r,c):
+    def isD(r, c):
         if r + 2 <= n - 1 and c + 1 <= n - 1 and board[r][c] == board[r + 1][c] == board[r + 2][c] == \
                 board[r + 2][c + 1]:
             if column_clean_until_row(r, c) and column_clean_until_row(r + 2, c + 1):
                 board[r][c] = board[r + 1][c] = board[r + 2][c] = board[r + 2][c + 1] = 0
                 return True
 
-    def isE(r,c):
+    def isE(r, c):
         if r + 1 <= n - 1 and c - 1 >= 0 and c + 1 <= n - 1 and board[r][c] == board[r + 1][c - 1] == \
                 board[r + 1][c] == board[r + 1][c + 1]:
             if column_clean_until_row(r, c) and column_clean_until_row(r + 1, c - 1) and column_clean_until_row(r + 1,
@@ -52,12 +52,17 @@ def solution(board):
             if board[r][c] != 0:
 
                 if isA(r, c):
-                    remove
                     count += 1
                 elif isB(r, c):
+                    count += 1
                 elif isC(r, c):
+                    count += 1
                 elif isD(r, c):
+                    count += 1
                 elif isE(r, c):
+                    count += 1
+                else:
+                    continue
 
     return count
 
