@@ -11,7 +11,7 @@ def solution(board):
     def isA(r, c):
         if r + 1 <= n - 1 and c + 2 <= n - 1 and \
                 board[r][c] == board[r + 1][c] == board[r + 1][c + 1] == board[r + 1][c + 2]:
-            if column_clean_until_row(r, c) and column_clean_until_row(r + 1, c + 1) and column_clean_until_row(r + 1,
+            if column_clean_until_row(r + 1, c + 1) and column_clean_until_row(r + 1,
                                                                                                                 c + 2):
                 board[r][c] = board[r + 1][c] = board[r + 1][c + 1] = board[r + 1][c + 2] = 0
 
@@ -20,14 +20,14 @@ def solution(board):
     def isB(r, c):
         if r + 2 <= n - 1 and c - 1 >= 0 and \
                 board[r][c] == board[r + 1][c] == board[r + 2][c] == board[r + 2][c - 1]:
-            if column_clean_until_row(r, c) and column_clean_until_row(r + 2, c - 1):
+            if column_clean_until_row(r + 2, c - 1):
                 board[r][c] = board[r + 1][c] = board[r + 2][c] = board[r + 2][c - 1] = 0
                 return True
 
     def isC(r, c):
         if r + 1 <= n - 1 and c - 2 >= 0 and board[r][c] == board[r + 1][c - 2] == board[r + 1][c - 1] == \
                 board[r + 1][c]:
-            if column_clean_until_row(r, c) and column_clean_until_row(r + 1, c - 1) and column_clean_until_row(r + 1,
+            if column_clean_until_row(r + 1, c - 1) and column_clean_until_row(r + 1,
                                                                                                                 c - 2):
                 board[r][c] = board[r + 1][c - 2] = board[r + 1][c - 1] = board[r + 1][c] = 0
                 return True
@@ -35,14 +35,14 @@ def solution(board):
     def isD(r, c):
         if r + 2 <= n - 1 and c + 1 <= n - 1 and board[r][c] == board[r + 1][c] == board[r + 2][c] == \
                 board[r + 2][c + 1]:
-            if column_clean_until_row(r, c) and column_clean_until_row(r + 2, c + 1):
+            if column_clean_until_row(r + 2, c + 1):
                 board[r][c] = board[r + 1][c] = board[r + 2][c] = board[r + 2][c + 1] = 0
                 return True
 
     def isE(r, c):
         if r + 1 <= n - 1 and c - 1 >= 0 and c + 1 <= n - 1 and board[r][c] == board[r + 1][c - 1] == \
                 board[r + 1][c] == board[r + 1][c + 1]:
-            if column_clean_until_row(r, c) and column_clean_until_row(r + 1, c - 1) and column_clean_until_row(r + 1,
+            if column_clean_until_row(r + 1, c - 1) and column_clean_until_row(r + 1,
                                                                                                                 c + 1):
                 board[r][c] = board[r + 1][c - 1] = board[r + 1][c] = board[r + 1][c + 1] = 0
                 return True
