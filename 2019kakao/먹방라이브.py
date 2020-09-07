@@ -8,7 +8,7 @@ def solution(food_times, k):
     for t, _ in sorted_f_times:
         accum_time += (t-jump_time) * n_remain_food
 
-        if accum_time > k:
+        if accum_time > k: # 이퀄이면 몇개 오답나옴
             accum_time -= (t-jump_time) * n_remain_food
             break
 
