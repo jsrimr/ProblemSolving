@@ -7,10 +7,13 @@ def solution(word, pages):
     word = word.lower()
     for i, page in enumerate(pages):
         page = page.lower()
-        page_name = re.findall(r'<head>.*<meta .* content="https://(.*)".*</head>',page, re.DOTALL)[0]
+        page_name = page.split('<meta property=\"og:url\" content=\"')[1].split('\"')[0]
 
         basic_score = re.findall("[a-z]+", page).count(word)
-        links = re.findall('<a href="https://(.*)">', page)
+        # links = re.findall('<a href="https://(.*)">', page)
+        links = []
+        for link_long in page.split('a href=\"')[1:]:
+            links.append(link_long.split('\"')[0])
 
         info[page_name] = {
             # 기본 점수 구하기  - body
