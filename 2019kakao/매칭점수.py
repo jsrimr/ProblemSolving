@@ -7,10 +7,10 @@ def solution(word, pages):
     word = word.lower()
     for i, page in enumerate(pages):
         page = page.lower()
-        page_name = re.search(r'meta .* content="(?P<page_name>.*)"/>', page).group("page_name")
+        page_name = re.findall(r'<head>.*<meta .* content="https://(.*)".*</head>',page, re.DOTALL)[0]
 
         basic_score = re.findall("[a-z]+", page).count(word)
-        links = re.findall('<a href="(.*)">', page)
+        links = re.findall('<a href="https://(.*)">', page)
 
         info[page_name] = {
             # 기본 점수 구하기  - body
@@ -31,7 +31,7 @@ def solution(word, pages):
                 referred_page = info[link]
                 referred_page['total_score'] += page['link_score_to_give']
 
-    max_total_score = 0
+    max_total_score = -1
     answer = -1
     for page in info.values():
 
