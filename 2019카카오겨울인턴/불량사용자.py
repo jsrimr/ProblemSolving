@@ -16,7 +16,7 @@ def solution(user_id, banned_id):
 
     possible_combination = set()
     for combination in itertools.product(*candidates_per_ban_id):
-        comb_set = set(combination)
+        comb_set = set(sorted(combination))
         if len(comb_set) == len(banned_id):
             possible_combination.add(tuple(comb_set))
 
