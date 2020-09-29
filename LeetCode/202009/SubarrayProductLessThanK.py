@@ -11,8 +11,10 @@ class Solution:
             nonlocal answer
             if k > 1:
                 answer += 1
-                for j in range(i + 1, N):
-                    backtrack(j, k / nums[i])
+                # for j in range(i + 1, N):
+                # print(i)
+                if i + 1 < N:
+                    backtrack(i + 1, k / nums[i+1])
 
         for i in range(N):
             backtrack(i, k / nums[i])
@@ -24,3 +26,4 @@ if __name__ == '__main__':
     s = Solution()
 
     print(s.numSubarrayProductLessThanK(nums=[10, 5, 2, 6], k=100))
+    print(s.numSubarrayProductLessThanK([1, 1, 1], 2))
