@@ -77,13 +77,13 @@ def backtrack(board, fish_loc, cur_loc, cur_dir, cur_fishes):  # 현재 상어�
     candidates = []
     r, c = cur_loc
     dr, dc = direction[cur_dir - 1][0], direction[cur_dir - 1][1]
-    while True:
-        nr, nc = r + dr, c + dc
-        if 0 <= nr < 4 and 0 <= nc < 4 and board[nr][nc][0] != 0:
+
+
+    nr, nc = r + dr, c + dc
+    while 0 <= nr < 4 and 0 <= nc < 4:
+        if board[nr][nc][0] != 0:
             candidates.append((nr, nc))
-            r, c = nr, nc
-        else:
-            break
+        nr, nc = nr + dr, nc + dc
 
     if not candidates:
         max_fish_n = max(max_fish_n, sum(cur_fishes))
