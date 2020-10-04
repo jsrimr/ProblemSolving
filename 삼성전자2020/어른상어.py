@@ -1,3 +1,4 @@
+import copy
 import time
 from collections import defaultdict
 
@@ -61,7 +62,7 @@ def count_down_scent():
                     board[i][j] = 0
 
 # 1 2 3 4 : 위 아래 왼쪽 오른쪽
-def find_back(shark, r, c):
+def find_back(shark, r, c, board):
     if 0 <= r - 1 < N and 0 <= c < N and board[r - 1][c][0] == shark:
         return r - 1, c, 1
 
@@ -86,57 +87,47 @@ def find_sharks():
 
 
 def move_shark():
+    copied_board = copy.deepcopy(board)
     sharks = find_sharks()
-    for s, r, c, d in sharks:
+    for s, r, c, d in sorted(sharks, reverse=True):
         # r, c, d = shark_info[s]
 
         prs = shark_priorities[s][d - 1]
         for d in prs:
             dr, dc = directions[d - 1]
             nr, nc = r + dr, c + dc
-            if 0 <= nr < N and 0 <= nc < N and board[nr][nc] == 0:
+            if 0 <= nr < N and 0 <= nc < N and copied_board[nr][nc] == 0:
                 break
 
         else:  # 자기 냄새 있는곳으로 돌아가기
-            nr, nc, d = find_back(s, r, c)
+            nr, nc, d = find_back(s, r, c, copied_board)
 
         board[r][c] = board[r][c][:2]
         board[nr][nc] = [s, K, d]
-
-
-#
-# def postprocess(next_locs):
-#     for s, nr, nc in next_locs[::-1]:
-#         if board[nr][nc][1] == K:
-#             del shark_info[board[nr][nc][0]]
-#
-#
 
 def check_only_one_shark():
     cnt = 0
     for i in range(N):
         for j in range(N):
-            if board[i][j] != 0:
+            if board[i][j] != 0 and len(board[i][j]) == 3:
                 cnt += 1
     if cnt == 1:
         return True
     else:
         return False
 
-
+# 1 2 3 4 : 위 아래 왼쪽 오른쪽
 start_time = time.time()
 while True:
     count_down_scent()  # k 모두 -1
     move_shark()
-    # next_locs = [move_shark(s) for s in shark_info]  # board 와 shark_info 를 업데이트
-    # postprocess(next_locs)
 
     if check_only_one_shark():
         print(answer)
         break
 
-    # if time.time() - start_time > 1:
-    #     print(-1)
-    #     break
+    if time.time() - start_time > 1:
+        print(-1)
+        break
 
     answer += 1
