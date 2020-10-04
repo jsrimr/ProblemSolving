@@ -56,7 +56,7 @@ directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 def count_down_scent():
     for i in range(N):
         for j in range(N):
-            if board[i][j] != 0:
+            if board[i][j] != 0 and len(board[i][j]) == 2:
                 board[i][j][1] -= 1
                 if board[i][j][1] == 0:
                     board[i][j] = 0
@@ -119,9 +119,9 @@ def check_only_one_shark():
 # 1 2 3 4 : 위 아래 왼쪽 오른쪽
 start_time = time.time()
 while True:
-    count_down_scent()  # k 모두 -1
     move_shark()
-
+    count_down_scent()  # k 모두 -1
+    answer += 1
     if check_only_one_shark():
         print(answer)
         break
@@ -129,5 +129,3 @@ while True:
     if time.time() - start_time > 1:
         print(-1)
         break
-
-    answer += 1
