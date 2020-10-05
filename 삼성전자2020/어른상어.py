@@ -61,20 +61,15 @@ def count_down_scent():
                 if board[i][j][1] == 0:
                     board[i][j] = 0
 
+
 # 1 2 3 4 : 위 아래 왼쪽 오른쪽
-def find_back(shark, r, c, board):
-    if 0 <= r - 1 < N and 0 <= c < N and board[r - 1][c][0] == shark:
-        return r - 1, c, 1
-
-    if 0 <= r + 1 < N and 0 <= c < N and board[r + 1][c][0] == shark:
-        return r + 1, c, 2
-
-    if 0 <= r < N and 0 <= c - 1 < N and board[r][c - 1][0] == shark:
-        return r, c - 1, 3
-
-    if 0 <= r < N and 0 <= c + 1 < N and board[r][c + 1][0] == shark:
-        return r, c + 1, 4
-
+def find_back(shark, r, c, d, board):
+    prs = shark_priorities[shark][d - 1]
+    for d in prs:
+        dr, dc = directions[d - 1]
+        nr, nc = r + dr, c + dc
+        if 0 <= nr < N and 0 <= nc < N and board[nr][nc][0] == shark:
+            return nr, nc, d
 
 # (s,K,d)
 def find_sharks():
@@ -89,10 +84,8 @@ def find_sharks():
 def move_shark():
     copied_board = copy.deepcopy(board)
     sharks = find_sharks()
-    for s, r, c, d in sorted(sharks, reverse=True):
-        # r, c, d = shark_info[s]
-
-        prs = shark_priorities[s][d - 1]
+    for s, r, c, origin_d in sorted(sharks, reverse=True):
+        prs = shark_priorities[s][origin_d - 1]
         for d in prs:
             dr, dc = directions[d - 1]
             nr, nc = r + dr, c + dc
@@ -100,10 +93,11 @@ def move_shark():
                 break
 
         else:  # 자기 냄새 있는곳으로 돌아가기
-            nr, nc, d = find_back(s, r, c, copied_board)
+            nr, nc, d = find_back(s, r, c, origin_d, copied_board)
 
         board[r][c] = board[r][c][:2]
         board[nr][nc] = [s, K, d]
+
 
 def check_only_one_shark():
     cnt = 0
@@ -115,6 +109,7 @@ def check_only_one_shark():
         return True
     else:
         return False
+
 
 # 1 2 3 4 : 위 아래 왼쪽 오른쪽
 start_time = time.time()
