@@ -1,5 +1,4 @@
 import copy
-import time
 from collections import defaultdict
 
 N, M, K = map(int, input().split())  # N 개에 걸쳐 격자의 모습,
@@ -25,7 +24,7 @@ for i in range(M):
         pr = map(int, input().split())
         shark_priorities[i + 1].append(list(pr))
 
-answer = 0
+
 for shark, info in shark_info.items():
     r, c, d = info
     board[r][c] = [shark, K, d]  # [1,k, d] 등으로 상어와 남은시간과 방향표시
@@ -112,7 +111,7 @@ def check_only_one_shark():
 
 
 # 1 2 3 4 : 위 아래 왼쪽 오른쪽
-start_time = time.time()
+answer = 0
 while True:
     move_shark()
     count_down_scent()  # k 모두 -1
@@ -121,6 +120,6 @@ while True:
         print(answer)
         break
 
-    if time.time() - start_time > 1:
+    if answer > 1000:
         print(-1)
         break
