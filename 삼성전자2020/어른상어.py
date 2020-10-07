@@ -9,14 +9,18 @@ shark_info = {}  # 1 : [r,c,d],  위치와 방향
 
 for i in range(N):
     row = list(map(int, input().split()))
+    board.append(row)
     for j in range(N):
         if row[j] != 0:
             shark_info[row[j]] = [i, j]
-    board.append(row)
 
 shark_directions = map(int, input().split())
 for i, d in enumerate(shark_directions):
     shark_info[i + 1].append(d)
+
+for shark, info in shark_info.items():
+    r, c, d = info
+    board[r][c] = [shark, K, d]  # [1,k, d] 등으로 상어와 남은시간과 방향표시
 
 shark_priorities = defaultdict(list)
 for i in range(M):
@@ -24,10 +28,6 @@ for i in range(M):
         pr = map(int, input().split())
         shark_priorities[i + 1].append(list(pr))
 
-
-for shark, info in shark_info.items():
-    r, c, d = info
-    board[r][c] = [shark, K, d]  # [1,k, d] 등으로 상어와 남은시간과 방향표시
 
 directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # 1 2 3 4 : 위 아래 왼쪽 오른쪽
 
@@ -71,7 +71,7 @@ def find_back(shark, r, c, d, board):
             return nr, nc, d
 
 # (s,K,d)
-def find_sharks():
+def find_sharks(board):
     sharks = []
     for i in range(N):
         for j in range(N):
@@ -82,7 +82,7 @@ def find_sharks():
 
 def move_shark():
     copied_board = copy.deepcopy(board)
-    sharks = find_sharks()
+    sharks = find_sharks(copied_board)
     for s, r, c, origin_d in sorted(sharks, reverse=True):
         prs = shark_priorities[s][origin_d - 1]
         for d in prs:
@@ -113,13 +113,17 @@ def check_only_one_shark():
 # 1 2 3 4 : 위 아래 왼쪽 오른쪽
 answer = 0
 while True:
-    move_shark()
-    count_down_scent()  # k 모두 -1
     answer += 1
+    move_shark()
+    # with open("mycode_log", "a") as f:
+    #     for row in board:
+    #         f.writelines(str(row)+"\n")
+    #     f.writelines("\n")
+    count_down_scent()  # k 모두 -1
+    if answer > 1000:
+        print(-1)
+        break
     if check_only_one_shark():
         print(answer)
         break
 
-    if answer > 1000:
-        print(-1)
-        break
