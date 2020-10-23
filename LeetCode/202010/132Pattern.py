@@ -10,7 +10,7 @@ class Solution:
 
         stack = []
         for i in range(n - 1, 0, -1):
-            while stack and stack[-1] < min_arr[i]:
+            while stack and stack[-1] <= min_arr[i]:
                 stack.pop()
 
             if stack and stack[-1] < nums[i]:
